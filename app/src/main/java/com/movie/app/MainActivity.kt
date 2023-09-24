@@ -11,11 +11,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.movie.app.data.model.MovieResponse
 import com.movie.app.ui.genre.GenreDetailScreen
 import com.movie.app.ui.genre.GenreScreen
 import com.movie.app.ui.movie.MovieDetailScreen
 import com.movie.app.ui.movie.MovieScreen
+import com.movie.app.ui.review.ReviewScreen
 import com.movie.app.ui.theme.MovieAppTheme
+import com.movie.app.utils.fromJson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,13 +44,20 @@ class MainActivity : ComponentActivity() {
                             route = "${MovieRoute.MovieScreen.route}?genreId={genreId}",
                             arguments = listOf(navArgument("genreId") { defaultValue = "" })
                         ) {
-                            MovieScreen(navController = navController, genreId = it.arguments?.getString("genreId") ?: "")
+                            MovieScreen(navController = navController, genreId = it.arguments?.getString("genreId").orEmpty())
                         }
-                        composable(MovieRoute.MovieDetailScreen.route) {
-                            MovieDetailScreen()
+                        composable(
+                            route = "${MovieRoute.MovieDetailScreen.route}?movie={movie}",
+                            arguments = listOf(navArgument("movie") { defaultValue = ""})
+                        ) {
+                            val dataJson = it.arguments?.getString("movie").orEmpty().fromJson<MovieResponse.Movie>()
+                            MovieDetailScreen(navController = navController, movie = dataJson)
                         }
                         composable(MovieRoute.GenreDetailScreen.route) {
                             GenreDetailScreen()
+                        }
+                        composable(MovieRoute.ReviewScreen.route) {
+                            ReviewScreen()
                         }
                     }
                 }
@@ -60,5 +70,6 @@ enum class MovieRoute(val route: String) {
     MovieScreen("movie"),
     MovieDetailScreen("movie-detail"),
     GenreScreen("genre"),
-    GenreDetailScreen("genre-detail")
+    GenreDetailScreen("genre-detail"),
+    ReviewScreen("review")
 }

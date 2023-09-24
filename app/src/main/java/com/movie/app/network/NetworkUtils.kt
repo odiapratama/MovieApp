@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 const val BASE_URL = "https://api.themoviedb.org/3/"
+const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original"
 const val TOKEN = "" // TODO: Add token here
 
 inline fun <reified T> createApi(): T {

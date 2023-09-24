@@ -43,6 +43,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.movie.app.MovieRoute
 import com.movie.app.data.model.MovieResponse
 import com.movie.app.ui.widget.LoadingAnimation
+import com.movie.app.utils.toJson
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
@@ -76,7 +77,7 @@ fun MovieScreen(
                         }
                     },
                     onClick = {
-                        navController.navigate(MovieRoute.MovieDetailScreen.route)
+                        navController.navigate("${MovieRoute.MovieDetailScreen.route}?movie=${it.toJson()}")
                     }
                 )
             }

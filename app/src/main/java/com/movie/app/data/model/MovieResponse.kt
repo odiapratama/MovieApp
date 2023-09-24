@@ -1,5 +1,6 @@
 package com.movie.app.data.model
 
+import com.movie.app.network.IMAGE_BASE_URL
 import com.squareup.moshi.Json
 
 data class MovieResponse(
@@ -46,6 +47,6 @@ data class MovieResponse(
         val voteCount: Int?
     ) {
         val posterUrl: String
-            get() = "https://image.tmdb.org/t/p/original${posterPath}"
+            get() = "$IMAGE_BASE_URL${posterPath}"
     }
 }
